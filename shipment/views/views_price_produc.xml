@@ -1,0 +1,102 @@
+<odoo>
+  <data>
+          <record id="sale_order_inherit_shipments" model="ir.ui.view">
+              <field name="name">sale.order_inherit_shipments</field>
+              <field name="model">sale.order</field>
+              <field name="inherit_id" ref="sale.view_order_form"/>
+              <field name="arch" type="xml">
+                  <xpath expr="//page[@name='customer_signature']" position="after">
+                    <page string="Realizar cotizaciones">
+                        <notebook>
+                          <page string="Datos del cliente">
+                            <group>
+                              <group string="Información personal">
+                                <field name="access_token_enviopack" invisible="1"/>
+                                <field name="api_key" invisible="1"/>
+                                <field name="secret_api" invisible="1"/>
+                                <field name="name_order"  readonly="validation_camps"/>
+                                <field name="name_order_client"  readonly="validation_camps" required="True"/>
+                                <field name="last_name"  readonly="validation_camps" required="True"/>
+                                <field name="email_order"  readonly="validation_camps" required="True"/>
+                                <field name="phone"  readonly="validation_camps" required="True"/>
+                                <field name="cell_phone"  readonly="validation_camps" required="True"/>
+                                <field name="shipping_address"  readonly="validation_camps"/>
+                              </group>
+                              <group string="Dirreción">
+                                <field name="street"  readonly="validation_camps" required="True"/>
+                                <field name="num_street"  readonly="validation_camps" required="True"/>
+                                <field name="floor"  readonly="validation_camps"/>
+                                <field name="departament"  readonly="validation_camps"/>
+                                <field name="postal_code"  readonly="validation_camps" required="True"/>
+                                <field name="location"  readonly="validation_camps" />
+                                <field name="province_id" invisible="1" string=" "/>
+                                <field name="neighborhood"  readonly="validation_camps" required="True"/>
+                              </group>
+                            </group>
+                          </page>
+                          <page string="Datos del pedido">
+                            <group>
+                              <group string="Información del envió">
+                                <field name="id_exter"  readonly="validation_camps"/>
+                                <field name="selec_status"  readonly="validation_camps"/>
+                                <field name="confirmed"  readonly="validation_camps"/>
+                                <field name="company_mail" invisible="1"/>
+                                <field name="price_mail" invisible="1"/>
+                                <field name="observations"  readonly="validation_camps"/>
+                                <field name="pay_product"  readonly="validation_camps"/>
+                              </group>
+                              <group string="Información del paquete">
+                                <field name="package_height"  readonly="validation_camps" required="True"/>
+                                <field name="package_width"  readonly="validation_camps" required="True"/>
+                                <field name="package_length"  readonly="validation_camps" required="True"/>
+                                <field name="package_weight" string="Peso del paquete"  readonly="validation_camps" required="True"/>
+                                <field name="amount"  readonly="validation_camps" required="True"/>
+                              </group>
+                            </group>
+                          </page>
+                        </notebook>
+                        <separator string=""/>
+                        <div class="text_end" style="text-align: right;">
+                          <button type="object" name="create_quotes" string="Cotizar" class="btn-primary" invisible="validation_camps"/>
+                        </div>
+                    </page>
+                    <page string="Generar guía">
+                      <notebook>
+                        <page string="Cotizaciones">
+                          <group>
+                            <field name="quotestre"/>
+                          </group>
+                          <separator string="Lista de cotizaciones obtenidas"/>
+                          <field name="list_quote" widget="one2many_list" string="" readonly="validation_camps">
+                            <tree editable="bottom" decoration-success="select_quote==True"  >
+                              <field name="select_quote"/>
+                              <field name="mail_package"/>
+                              <field name="name" />
+                              <field name="id_mail" />
+                              <field name="shipping_cost"/>
+                              <field name="delivery_time"/>
+                              <field name="date_estimated"/>
+                              <field name="date_preparation"/>
+                            </tree>
+                          </field>
+                          <div class="text_end" style="text-align: right;">
+                            <field name="validation_camps" invisible="1"/>
+                            <button name="report_pdf_labels_shipments" string="Generar Guía" class="btn-primary" type="object" invisible="validation_camps"/>
+                          </div>
+                        </page>
+                      </notebook>
+                    </page>
+                  </xpath>
+              </field>
+          </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="shipment.price_produc_action_window">
+      <field name="name">shipment window</field>
+      <field name="res_model">sale.order</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>
